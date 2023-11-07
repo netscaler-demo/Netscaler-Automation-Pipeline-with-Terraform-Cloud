@@ -1,5 +1,5 @@
 resource "citrixadc_lbvserver" "tfc_lbvserver" {
-  ipv46       = "10.10.10.33"
+  ipv46       = "10.10.10.30"
   name        = "tfc_lbvserver"
   port        = 80
   servicetype = "HTTP"
