@@ -1,9 +1,11 @@
 name: "Terraform Apply"
 
 on:
+  # apply this workflow only when pull_request is successfully merged to main branch
   push:
     branches:
       - main
+
 
 env:
   TF_CLOUD_ORGANIZATION: "netscaler_automation"
@@ -53,10 +55,10 @@ jobs:
             const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: context.issue.number,
+              issue_number: context.issue.number || issues.data[0].number,
             });
             const output = `#### Terraform Cloud Apply Output
-            
+
                [Terraform Cloud Apply details](${{ steps.apply-run.outputs.run_link }})
                `;
             github.rest.issues.createComment({
