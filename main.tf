@@ -7,7 +7,7 @@ resource "citrixadc_lbvserver" "tfc_lbvserver" {
 
 resource "citrixadc_service" "tfc_service" {
   name        = "tfc_service"
-  ip          = "192.168.43.23"
+  ip          = "192.168.43.25"
   servicetype = "HTTP"
   port        = 80
 }
