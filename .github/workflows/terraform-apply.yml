@@ -52,10 +52,18 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             // 1. Retrieve existing bot comments for the PR
+            const issues = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              head: `${context.repo.owner}:${context.ref.replace('refs/heads/', '')}`
+            })
+            const pr = context.issue.number || issues.data[0].number
+            
             const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: context.issue.number || issues.data[0].number,
+              issue_number: pr,
             });
             const output = `#### Terraform Cloud Apply Output
 
