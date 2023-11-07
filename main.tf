@@ -5,7 +5,7 @@ resource "citrixadc_lbvserver" "tfc_lbvserver" {
   servicetype = "HTTP"
 }
 
-resource "citrixadc_service" "tf_service" {
+resource "citrixadc_service" "tfc_service" {
   name        = "tfc_service"
   ip          = "192.168.43.23"
   servicetype = "HTTP"
@@ -13,7 +13,7 @@ resource "citrixadc_service" "tf_service" {
 }
 
 resource "citrixadc_lbvserver_service_binding" "tfc_binding" {
-  name        = citrixadc_lbvserver.tf_lbvserver.name
-  servicename = citrixadc_service.tf_service.name
-  weight      = 10
+  name        = citrixadc_lbvserver.tfc_lbvserver.name
+  servicename = citrixadc_service.tfc_service.name
+  weight      = 1
 }
