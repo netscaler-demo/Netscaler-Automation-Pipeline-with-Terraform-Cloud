@@ -15,5 +15,5 @@ resource "citrixadc_service" "tfc_service" {
 resource "citrixadc_lbvserver_service_binding" "tfc_binding" {
   name        = citrixadc_lbvserver.tfc_lbvserver.name
   servicename = citrixadc_service.tfc_service.name
-  weight      = 1
+  weight      = 20
 }
