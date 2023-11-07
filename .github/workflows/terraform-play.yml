@@ -4,20 +4,21 @@ on:
   pull_request:
 
 env:
-  TF_CLOUD_ORGANISATION: "netscaler_automation"
+  TF_CLOUD_ORGANIZATION: "netscaler_automation"
   TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
   TF_WORKSPACE: "netscaler-automation-pipeline"
   CONFIG_DIRECTORY: "./"
 
 jobs:
   terraform:
+    if: github.repository != 'hashicorp-education/learn-terraform-github-actions'
     name: "Terraform Plan"
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: write
     steps:
-      - name: checkout
+      - name: Checkout
         uses: actions/checkout@v3
 
       - name: Upload Configuration
@@ -35,7 +36,7 @@ jobs:
           workspace: ${{ env.TF_WORKSPACE }}
           configuration_version: ${{ steps.plan-upload.outputs.configuration_version_id }}
           plan_only: true
-  
+
       - name: Get Plan Output
         uses: hashicorp/tfc-workflows-github/actions/plan-output@v1.0.0
         id: plan-output
@@ -58,11 +59,11 @@ jobs:
               return comment.user.type === 'Bot' && comment.body.includes('Terraform Cloud Plan Output')
             });
             const output = `#### Terraform Cloud Plan Output
-                \`\`\`
-                Plan: ${{ steps.plan-output.outputs.add }} to add, ${{ steps.plan-output.outputs.change }} to change, ${{ steps.plan-output.outputs.destroy }} to destroy.
-                \`\`\`
-                [Terraform Cloud Plan](${{ steps.plan-run.outputs.run_link }})
-                `;
+               \`\`\`
+               Plan: ${{ steps.plan-output.outputs.add }} to add, ${{ steps.plan-output.outputs.change }} to change, ${{ steps.plan-output.outputs.destroy }} to destroy.
+               \`\`\`
+               [Terraform Cloud Plan](${{ steps.plan-run.outputs.run_link }})
+               `;
             // 3. Delete previous comment so PR timeline makes sense
             if (botComment) {
               github.rest.issues.deleteComment({
