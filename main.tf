@@ -17,7 +17,7 @@ resource "citrixadc_lbvserver" "tf_lbvserver1" {
 resource "citrixadc_service" "web-server-red" {
   name        = "web-server-red"
   port        = 80
-  ip          = "20.118.26.84"
+  ip          = "10.11.2.5"
   servicetype = "HTTP"
 }
 
