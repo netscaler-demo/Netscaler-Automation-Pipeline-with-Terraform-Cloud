@@ -4,7 +4,7 @@ resource "citrixadc_nsfeature" "tf_nsfeature" {
 }
 
 resource "citrixadc_nsip" "snip" {
-  ipaddress = "${adc_instance_snip}"
+  ipaddress = "10.11.2.4"
   type      = "SNIP"
   netmask   = "255.255.255.0"
 }
