@@ -55,6 +55,8 @@ jobs:
             const issues = await github.rest.pulls.list({
               owner: context.repo.owner,
               repo: context.repo.repo,
+              state: 'open',
+              head: `${context.repo.owner}:${context.ref.replace('refs/heads/', '')}`
             })
             const pr =  issues.data[0].number
             
