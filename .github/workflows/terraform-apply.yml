@@ -2,9 +2,9 @@ name: "Terraform Apply"
 
 on:
   # apply this workflow only when pull_request is successfully merged to main branch
-  push:
-    branches:
-      - main
+  pull_request:
+    types:
+      - closed
 
 
 env:
@@ -15,6 +15,7 @@ env:
 
 jobs:
   terraform:
+    if: github.event.pull_request.merged == true
     name: "Terraform Apply"
     runs-on: ubuntu-latest
     permissions:
@@ -52,18 +53,10 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             // 1. Retrieve existing bot comments for the PR
-            const issues = await github.rest.pulls.list({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'open',
-              head: `${context.repo.owner}:${context.ref.replace('refs/heads/', '')}`
-            })
-            const pr =  issues.data[0].number
-            
             const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: pr,
+              issue_number: context.issue.number,
             });
             const output = `#### Terraform Cloud Apply Output
 
