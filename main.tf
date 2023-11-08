@@ -38,7 +38,7 @@ resource "citrixadc_cspolicy" "tf_policy_red" {
 
 
 resource "citrixadc_csvserver" "tf_csvserver" {
-  ipv46       = "40.122.112.119"
+  ipv46       = "10.11.1.4"
   name        = "tf_csvserver"
   port        = 80
   servicetype = "HTTP"
