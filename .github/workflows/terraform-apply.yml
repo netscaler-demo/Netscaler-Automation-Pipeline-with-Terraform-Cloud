@@ -20,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      pull-requests: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -47,7 +48,23 @@ jobs:
           comment: "Apply Run from GitHub Actions CI ${{ github.sha }}"
 
       - name: Update PR
-        uses: mshick/add-pr-comment@v2
+        uses: actions/github-script@v6
+        id: apply-comment
         with:
-          message: |
-            **Hello MAIN**
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            // 1. Retrieve existing bot comments for the PR
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const output = `#### Terraform Cloud Apply Output
+               [Terraform Cloud Apply details](${{ steps.apply-run.outputs.run_link }})
+               `;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            });
