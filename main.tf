@@ -41,3 +41,36 @@ resource "citrixadc_csvserver_cspolicy_binding" "tf_csvscspolbind_red" {
   policyname = citrixadc_cspolicy.tf_policy_red.policyname
   priority   = 100
 }
+#-------
+
+resource "citrixadc_lbvserver" "tf_lbvserver2" {
+  name        = "tf_lbvserver2"
+  servicetype = "HTTP"
+}
+resource "citrixadc_service" "web-server-green" {
+  name        = "web-server-green"
+  port        = 80
+  ip          = "20.118.26.73"
+  servicetype = "HTTP"
+}
+
+resource "citrixadc_lbvserver_service_binding" "lb_binding2" {
+  name        = citrixadc_lbvserver.tf_lbvserver2.name
+  servicename = citrixadc_service.web-server-green.name
+}
+
+resource "citrixadc_csaction" "tf_csaction2" {
+  name            = "tf_csaction2"
+  targetlbvserver = citrixadc_lbvserver.tf_lbvserver2.name
+}
+resource "citrixadc_cspolicy" "tf_policy_green" {
+  policyname = "tf_policy_green"
+  rule       = "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/green\")"
+  action     = citrixadc_csaction.tf_csaction2.name
+}
+
+resource "citrixadc_csvserver_cspolicy_binding" "tf_csvscspolbind_green" {
+  name       = citrixadc_csvserver.tf_csvserver.name
+  policyname = citrixadc_cspolicy.tf_policy_green.policyname
+  priority   = 110
+}
