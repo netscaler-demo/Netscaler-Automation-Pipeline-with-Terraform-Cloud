@@ -40,7 +40,7 @@ resource "citrixadc_csvserver_cspolicy_binding" "tf_csvscspolbind_red" {
   name       = citrixadc_csvserver.tf_csvserver.name
   policyname = citrixadc_cspolicy.tf_policy_red.policyname
   priority   = 100
-
+}
 #-------
 
 resource "citrixadc_lbvserver" "tf_lbvserver2" {
@@ -73,5 +73,4 @@ resource "citrixadc_csvserver_cspolicy_binding" "tf_csvscspolbind_green" {
   name       = citrixadc_csvserver.tf_csvserver.name
   policyname = citrixadc_cspolicy.tf_policy_green.policyname
   priority   = 110
-
 }
