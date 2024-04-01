@@ -37,6 +37,14 @@ body:
       required: true
 
   - type: input
+    id: os
+    attributes:
+      label: Operating system
+      description: The Operating system that you are using.
+    validations:
+      required: true
+      
+  - type: input
     id: citrixadc_version
     attributes:
       label: citrixadc Provider Version
@@ -115,8 +123,6 @@ body:
       label: Terraform Configuration Files
       description: |
         Please paste, upload, or link to a file or Gist containing all Terraform configurations required to reproduce the bug. See note above for additional information on file size restrictions and encrypting.
-
-        Bug reports without a functional reproduction may be closed without investigation.
     validations:
       required: true
 
@@ -133,7 +139,7 @@ body:
     attributes:
       label: Debug Output
       description: |
-        If possible, please paste, upload, or link to a file or Gist containing debug logs. See note above for additional information on file size restrictions and encrypting.
+        If possible, please paste, upload, or link to a file or Gist containing debug logs. See note above for additional information on file size restrictions.
 
         Append `TF_LOG=TRACE NS_LOG=TRACE TF_LOG_PATH=./tf.log` to your terraform command. For example, `TF_LOG=TRACE NS_LOG=TRACE TF_LOG_PATH=./tf.log terraform apply`. Terraform outputs logs to the log file (./tf.log).
     validations:
@@ -143,7 +149,7 @@ body:
     id: panic_logs
     attributes:
       label: Panic Output
-      description: If Terraform produced a panic, please paste, upload, or link to a file or Gist containing the output of the `crash.log`.
+      description: If Terraform produced a panic, please paste, upload, or link to a file or Gist containing the output of the `tf.log`.
     validations:
       required: false
 
